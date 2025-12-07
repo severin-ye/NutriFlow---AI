@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from config.settings import AGENT_SYSTEM_PROMPT, DASHSCOPE_API_KEY
 from tools.vision_tools import detect_dishes_and_portions
 from tools.portion_tools import check_and_refine_portions
-from tools.nutrition_tools import query_nutrition_per_100g
+from tools.nutrition_tools import query_nutrition_per_100g, add_nutrition_to_dishes
 from tools.compute_tools import compute_meal_nutrition, score_current_meal
 from tools.db_tools import load_recent_meals, save_meal, get_daily_summary
 from tools.recommendation_tools import (
@@ -41,6 +41,7 @@ class NutritionAgent:
         self.tools = [
             detect_dishes_and_portions,
             check_and_refine_portions,
+            add_nutrition_to_dishes,  # 🆕 批量添加营养数据
             query_nutrition_per_100g,
             compute_meal_nutrition,
             score_current_meal,

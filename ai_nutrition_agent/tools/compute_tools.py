@@ -29,12 +29,16 @@ def compute_meal_nutrition(portion_result: str) -> str:
     image_path = portion_data.get("image_path", "")
     
     if not dishes:
+        error_msg = "❌ compute_meal_nutrition: dishes列表为空"
+        print(error_msg)
         return json.dumps({
             "dishes": [],
             "meal_nutrition_total": {},
             "image_path": image_path,
-            "error": "没有菜品数据"
+            "error": error_msg
         }, ensure_ascii=False)
+    
+    print(f"[DEBUG compute] 开始计算，共 {len(dishes)} 道菜")
     
     result_dishes = []
     meal_total = {
@@ -46,11 +50,29 @@ def compute_meal_nutrition(portion_result: str) -> str:
     }
     
     for dish in dishes:
+        # 🔍 严格检查：必须有 final_weight_g
+        if "final_weight_g" not in dish:
+            error_msg = f"❌ compute: 菜品 {dish.get('name', 'unknown')} 缺少 final_weight_g 字段"
+            print(error_msg)
+            print(f"   菜品完整数据: {dish}")
+            raise ValueError(error_msg)
+        
+        # 🔍 严格检查：必须有 nutrition_per_100g
+        if "nutrition_per_100g" not in dish:
+            error_msg = f"❌ compute: 菜品 {dish.get('name', 'unknown')} 缺少 nutrition_per_100g 字段"
+            print(error_msg)
+            print(f"   菜品完整数据: {dish}")
+            raise ValueError(error_msg)
+        
         # 获取最终重量
         weight_g = dish.get("final_weight_g", dish.get("estimated_weight_g", 100))
         
         # 获取每100g营养
         nutrition_per_100g = dish.get("nutrition_per_100g", {})
+        
+        print(f"[DEBUG compute] 菜品: {dish.get('name')}")
+        print(f"[DEBUG compute]   重量: {weight_g}g")
+        print(f"[DEBUG compute]   每100g营养: {nutrition_per_100g}")
         
         # 计算该菜品的总营养
         nutrition_total = {
@@ -60,6 +82,8 @@ def compute_meal_nutrition(portion_result: str) -> str:
             "carbs": nutrition_per_100g.get("carbs", 0) * weight_g / 100,
             "sodium": nutrition_per_100g.get("sodium", 0) * weight_g / 100
         }
+        
+        print(f"[DEBUG compute]   计算后总营养: {nutrition_total}")
         
         # 更新菜品数据
         dish_copy = dish.copy()
@@ -73,6 +97,16 @@ def compute_meal_nutrition(portion_result: str) -> str:
     # 四舍五入
     for key in meal_total:
         meal_total[key] = round(meal_total[key], 2)
+    
+    print(f"[DEBUG compute] ✅ 计算完成")
+    print(f"[DEBUG compute]   整餐总营养: {meal_total}")
+    
+    # 🔍 严格检查：如果所有营养值都是0，抛出错误
+    if all(v == 0 for v in meal_total.values()):
+        error_msg = "❌ CRITICAL: 计算结果全为0，数据异常！"
+        print(error_msg)
+        print(f"   dishes数据: {dishes}")
+        raise ValueError(error_msg)
     
     result = {
         "dishes": result_dishes,

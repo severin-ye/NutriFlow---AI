@@ -32,6 +32,7 @@ def query_nutrition_per_100g(dish_name: str) -> Dict[str, float]:
     返回:
         营养成分字典，包含: calories, protein, fat, carbs, sodium
     """
+    print(f"[DEBUG nutrition] 查询菜品: {dish_name}")
     
     # 构造查询提示词
     prompt = f"""请查询"{dish_name}"每100克的营养成分数据。
@@ -196,3 +197,66 @@ if __name__ == "__main__":
         print(f"  脂肪: {result['fat']} g")
         print(f"  碳水: {result['carbs']} g")
         print(f"  钠: {result['sodium']} mg")
+
+
+@tool
+def add_nutrition_to_dishes(portion_result: str) -> str:
+    """
+    为菜品列表批量添加营养数据。这是关键步骤，必须在compute之前调用！
+    
+    参数:
+        portion_result: 分量验证后的结果JSON字符串，包含 {"dishes": [...], "image_path": "..."}
+    
+    返回:
+        JSON字符串，每道菜都添加了nutrition_per_100g字段
+    """
+    print("[DEBUG add_nutrition] 开始为菜品添加营养数据")
+    
+    # 解析JSON
+    try:
+        portion_data = json.loads(portion_result)
+    except json.JSONDecodeError as e:
+        error_msg = f"❌ add_nutrition: 无法解析portion_result - {str(e)}"
+        print(error_msg)
+        return json.dumps({"dishes": [], "image_path": "", "error": error_msg}, ensure_ascii=False)
+    
+    dishes = portion_data.get("dishes", [])
+    image_path = portion_data.get("image_path", "")
+    
+    if not dishes:
+        error_msg = "❌ add_nutrition: dishes列表为空"
+        print(error_msg)
+        return json.dumps({"dishes": [], "image_path": image_path, "error": error_msg}, ensure_ascii=False)
+    
+    print(f"[DEBUG add_nutrition] 共 {len(dishes)} 道菜需要查询营养")
+    
+    result_dishes = []
+    for i, dish in enumerate(dishes, 1):
+        dish_name = dish.get("name", "未知菜品")
+        print(f"[DEBUG add_nutrition] {i}/{len(dishes)} 查询: {dish_name}")
+        
+        try:
+            # 调用单个菜品营养查询
+            nutrition = query_nutrition_per_100g.invoke({"dish_name": dish_name})
+            
+            # 添加营养数据到菜品
+            dish["nutrition_per_100g"] = nutrition
+            print(f"[DEBUG add_nutrition]   ✅ 成功: {nutrition}")
+            
+        except Exception as e:
+            error_msg = f"查询失败: {str(e)}"
+            print(f"[DEBUG add_nutrition]   ⚠️  {error_msg}")
+            
+            # 使用fallback数据
+            dish["nutrition_per_100g"] = _get_fallback_nutrition(dish_name)
+            print(f"[DEBUG add_nutrition]   使用fallback: {dish['nutrition_per_100g']}")
+        
+        result_dishes.append(dish)
+    
+    result = {
+        "dishes": result_dishes,
+        "image_path": image_path
+    }
+    
+    print(f"[DEBUG add_nutrition] ✅ 完成，所有菜品已添加营养数据")
+    return json.dumps(result, ensure_ascii=False)

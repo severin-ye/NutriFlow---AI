@@ -97,18 +97,42 @@ def load_recent_meals(days: int = RECENT_DAYS) -> Dict[str, Any]:
 
 
 @tool
-def save_meal(meal_data: Dict[str, Any]) -> str:
+def save_meal(meal_data: str) -> str:
     """
     将餐食记录保存到JSON数据库。
     
     参数:
-        meal_data: 完整的餐食数据，包含所有必要字段
+        meal_data: 完整的餐食数据JSON字符串，包含dishes、meal_nutrition_total等字段
     
     返回:
         保存状态消息
     """
     try:
+        print(f"[DEBUG save_meal] 收到数据类型: {type(meal_data)}")
+        print(f"[DEBUG save_meal] 数据前200字符: {str(meal_data)[:200]}")
+        
+        # 解析JSON字符串
+        if isinstance(meal_data, str):
+            meal_dict = json.loads(meal_data)
+        else:
+            meal_dict = meal_data
+        
+        print(f"[DEBUG save_meal] 解析后的keys: {meal_dict.keys()}")
+        
+        # 🔍 严格检查：必须有dishes
+        if "dishes" not in meal_dict or not meal_dict["dishes"]:
+            error_msg = "❌ save_meal: 缺少dishes字段或为空"
+            print(error_msg)
+            raise ValueError(error_msg)
+        
+        # 🔍 严格检查：必须有meal_nutrition_total
+        if "meal_nutrition_total" not in meal_dict:
+            error_msg = "❌ save_meal: 缺少meal_nutrition_total字段"
+            print(error_msg)
+            raise ValueError(error_msg)
+        
         db = _load_json()
+        print(f"[DEBUG save_meal] 数据库加载成功，当前有 {len(db.get('days', []))} 天记录")
         
         # 获取当前日期
         today = datetime.now().strftime("%Y-%m-%d")
@@ -138,19 +162,20 @@ def save_meal(meal_data: Dict[str, Any]) -> str:
             day_index = len(db["days"]) - 1
         
         # 添加meal_id和timestamp(如果没有)
-        if "meal_id" not in meal_data:
+        if "meal_id" not in meal_dict:
             meal_count = len(db["days"][day_index]["meals"])
-            meal_data["meal_id"] = f"meal_{today}_{meal_count+1}"
+            meal_dict["meal_id"] = f"meal_{today}_{meal_count+1}"
         
-        if "timestamp" not in meal_data:
-            meal_data["timestamp"] = datetime.now().isoformat()
+        if "timestamp" not in meal_dict:
+            meal_dict["timestamp"] = datetime.now().isoformat()
         
         # 添加餐食到今天的记录
-        db["days"][day_index]["meals"].append(meal_data)
+        db["days"][day_index]["meals"].append(meal_dict)
         
         # 更新每日汇总
         daily_summary = db["days"][day_index]["daily_summary"]
-        meal_nutrition = meal_data.get("nutrition_total", {})
+        # 兼容两种字段名：meal_nutrition_total 和 nutrition_total
+        meal_nutrition = meal_dict.get("meal_nutrition_total") or meal_dict.get("nutrition_total", {})
         
         daily_summary["total_calories"] += meal_nutrition.get("calories", 0)
         daily_summary["total_protein"] += meal_nutrition.get("protein", 0)
@@ -173,11 +198,19 @@ def save_meal(meal_data: Dict[str, Any]) -> str:
         
         # 保存数据库
         _save_json(db)
+        print(f"[DEBUG save_meal] ✅ 数据库保存成功")
+        print(f"[DEBUG save_meal]   文件路径: {DB_PATH}")
+        print(f"[DEBUG save_meal]   当前天数: {len(db['days'])}")
+        print(f"[DEBUG save_meal]   今日餐数: {len(db['days'][day_index]['meals'])}")
         
-        return f"成功保存餐食记录到 {today}，餐食ID: {meal_data['meal_id']}"
+        return f"成功保存餐食记录到 {today}，餐食ID: {meal_dict['meal_id']}"
     
     except Exception as e:
-        error_msg = f"保存餐食失败: {str(e)}"
+        error_msg = f"❌ 保存餐食失败: {str(e)}"
+        print(error_msg)
+        import traceback
+        traceback.print_exc()
+        raise
         print(error_msg)
         return error_msg
 

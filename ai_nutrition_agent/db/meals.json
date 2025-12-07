@@ -1,0 +1,57 @@
+{
+  "user_id": "user001",
+  "days": [
+    {
+      "date": "2025-12-08",
+      "daily_summary": {
+        "total_calories": 345.9,
+        "total_protein": 24.6,
+        "total_fat": 18.3,
+        "total_carbs": 22.2,
+        "total_sodium": 961.5,
+        "daily_score": 0
+      },
+      "meals": [
+        {
+          "dishes": [
+            {
+              "name": "宫保鸡丁",
+              "category": "荤菜",
+              "estimated_weight_g": 300,
+              "portion_level": "large",
+              "reason": "菜品在盘中堆叠较高，覆盖了大部分盘面，可见鸡肉丁、花生、胡萝卜丁和黄瓜丁等配料丰富，份量饱满。",
+              "dish_id": "dish_1",
+              "final_weight_g": 300,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 115.3,
+                "protein": 8.2,
+                "fat": 6.1,
+                "carbs": 7.4,
+                "sodium": 320.5
+              },
+              "nutrition_total": {
+                "calories": 345.9,
+                "protein": 24.6,
+                "fat": 18.3,
+                "carbs": 22.2,
+                "sodium": 961.5
+              }
+            }
+          ],
+          "meal_nutrition_total": {
+            "calories": 345.9,
+            "protein": 24.6,
+            "fat": 18.3,
+            "carbs": 22.2,
+            "sodium": 961.5
+          },
+          "image_path": "/home/severin/Codelib/HCI/image.png",
+          "meal_id": "meal_2025-12-08_1",
+          "timestamp": "2025-12-08T03:04:28.948448"
+        }
+      ]
+    }
+  ]
+}

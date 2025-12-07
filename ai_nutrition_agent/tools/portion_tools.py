@@ -96,6 +96,10 @@ def check_and_refine_portions(vision_result: str) -> str:
         
         verification_results = json.loads(json_str)
         
+        # 🔧 修复：如果LLM返回的是单个字典而不是列表，转换为列表
+        if isinstance(verification_results, dict) and "dish_id" in verification_results:
+            verification_results = [verification_results]
+        
         # 将验证结果合并到原始菜品数据中
         result_dishes = []
         for dish in dishes:
@@ -103,7 +107,7 @@ def check_and_refine_portions(vision_result: str) -> str:
             
             # 查找对应的验证结果
             verification = next(
-                (v for v in verification_results if v.get("dish_id") == dish_id),
+                (v for v in verification_results if isinstance(v, dict) and v.get("dish_id") == dish_id),
                 None
             )
             

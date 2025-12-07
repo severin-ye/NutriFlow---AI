@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-简化版主程序 - 完全自动化分析
-只需选择图片，自动推断餐型并保存数据
+智能营养分析系统 - 主程序
+基于 LangChain 1.0 + LangGraph + 阿里通义千问
 """
 import os
 import sys
@@ -10,9 +10,9 @@ from datetime import datetime
 # 添加项目根目录到路径
 sys.path.insert(0, os.path.dirname(__file__))
 
-from agent import NutritionAgent
-from tools.meal_type_tools import infer_meal_type
-from tools.db_tools import load_recent_meals
+from ai_nutrition_agent.agent import NutritionAgent
+from ai_nutrition_agent.tools.meal_type_tools import infer_meal_type
+from ai_nutrition_agent.tools.db_tools import load_recent_meals
 
 
 def print_header():
