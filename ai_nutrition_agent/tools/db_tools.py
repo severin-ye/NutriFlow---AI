@@ -12,21 +12,37 @@ from config.settings import DB_PATH, RECENT_DAYS
 
 def _load_json() -> Dict[str, Any]:
     """加载JSON数据库"""
+    initial_data = {
+        "user_id": "user001",
+        "days": []
+    }
+    
     if not os.path.exists(DB_PATH):
         # 如果文件不存在，创建初始结构
-        initial_data = {
-            "user_id": "user001",
-            "days": []
-        }
+        print(f"[DEBUG] 数据库文件不存在，创建新文件: {DB_PATH}")
         _save_json(initial_data)
         return initial_data
     
     try:
         with open(DB_PATH, "r", encoding="utf-8") as f:
-            return json.load(f)
+            content = f.read().strip()
+            # 检查文件是否为空
+            if not content:
+                print(f"[DEBUG] 数据库文件为空，初始化新数据")
+                _save_json(initial_data)
+                return initial_data
+            return json.loads(content)
+    except json.JSONDecodeError as e:
+        print(f"⚠️  数据库JSON格式错误: {str(e)}")
+        print(f"[DEBUG] 将重新初始化数据库")
+        _save_json(initial_data)
+        return initial_data
     except Exception as e:
-        print(f"加载数据库错误: {str(e)}")
-        return {"user_id": "user001", "days": []}
+        print(f"❌ 加载数据库错误: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        print(f"[DEBUG] 返回空数据结构")
+        return initial_data
 
 
 def _save_json(data: Dict[str, Any]) -> None:
@@ -35,10 +51,22 @@ def _save_json(data: Dict[str, Any]) -> None:
         # 确保目录存在
         os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
         
-        with open(DB_PATH, "w", encoding="utf-8") as f:
+        # 先写入临时文件，成功后再替换原文件（避免写入失败导致数据丢失）
+        temp_path = DB_PATH + ".tmp"
+        with open(temp_path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
+        
+        # 原子性替换文件
+        os.replace(temp_path, DB_PATH)
     except Exception as e:
-        print(f"保存数据库错误: {str(e)}")
+        print(f"❌ 保存数据库错误: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        # 清理临时文件
+        temp_path = DB_PATH + ".tmp"
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+        raise  # 抛出异常，让调用者知道保存失败
 
 
 @tool
