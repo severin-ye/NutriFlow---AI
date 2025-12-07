@@ -143,8 +143,8 @@ def query_nutrition_per_100g(dish_name: str) -> Dict[str, float]:
 
 if __name__ == "__main__":
     # 测试代码
-    result = query_nutrition_per_100g("宫保鸡丁")
+    result = query_nutrition_per_100g.invoke({"dish_name": "宫保鸡丁"})
     print(result)
     
-    result2 = query_nutrition_per_100g("鸡丁")  # 测试模糊匹配
+    result2 = query_nutrition_per_100g.invoke({"dish_name": "鸡丁"})  # 测试模糊匹配
     print(result2)

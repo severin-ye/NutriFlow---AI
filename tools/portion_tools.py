@@ -67,6 +67,8 @@ def check_and_refine_portions(dishes: List[Dict[str, Any]]) -> List[Dict[str, An
         
         # 解析响应
         content = response.choices[0].message.content
+        if not content:
+            raise ValueError("模型返回内容为空")
         
         # 提取JSON
         if "```json" in content:
@@ -123,5 +125,5 @@ if __name__ == "__main__":
             "estimated_weight_g": 30
         }
     ]
-    result = check_and_refine_portions(test_dishes)
+    result = check_and_refine_portions.invoke({"dishes": test_dishes})
     print(json.dumps(result, ensure_ascii=False, indent=2))

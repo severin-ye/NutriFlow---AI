@@ -73,6 +73,8 @@ def detect_dishes_and_portions(image_path: str) -> List[Dict[str, Any]]:
         
         # 解析响应
         content = response.choices[0].message.content
+        if not content:
+            raise ValueError("模型返回内容为空")
         
         # 尝试提取JSON
         if "```json" in content:
@@ -109,5 +111,5 @@ if __name__ == "__main__":
     # 测试代码
     test_image = "test_meal.jpg"
     if os.path.exists(test_image):
-        result = detect_dishes_and_portions(test_image)
+        result = detect_dishes_and_portions.invoke({"image_path": test_image})
         print(json.dumps(result, ensure_ascii=False, indent=2))

@@ -6,8 +6,7 @@ import os
 import sys
 from datetime import datetime
 from langchain_community.chat_models.tongyi import ChatTongyi
-from langchain import hub
-from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langgraph.prebuilt import create_react_agent
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 # 添加项目根目录到路径
@@ -31,11 +30,12 @@ class NutritionAgent:
     
     def __init__(self):
         """初始化Agent"""
-        # 初始化模型
-        self.model = ChatTongyi(
-            model="qwen-plus",
-            dashscope_api_key=DASHSCOPE_API_KEY
-        )
+        # 检查API Key是否配置
+        if not DASHSCOPE_API_KEY:
+            raise ValueError("DASHSCOPE_API_KEY未配置，请在.env文件中设置")
+        
+        # 初始化模型 - ChatTongyi会自动从环境变量读取DASHSCOPE_API_KEY
+        self.model = ChatTongyi()  # type: ignore
         
         # 初始化工具列表
         self.tools = [
@@ -52,60 +52,10 @@ class NutritionAgent:
             recommend_next_meal
         ]
         
-        # 创建Agent提示词模板
-        template = """你是一个智能营养分析助手。
-
-你拥有以下工具：
-{tools}
-
-工具名称：{tool_names}
-
-请按照以下格式回答用户问题：
-
-Question: 用户的输入问题
-Thought: 你应该思考该做什么
-Action: 要使用的工具，必须是 [{tool_names}] 中的一个
-Action Input: 工具的输入参数
-Observation: 工具的输出结果
-... (这个 Thought/Action/Action Input/Observation 可以重复N次)
-Thought: 我现在知道最终答案了
-Final Answer: 给用户的最终回答
-
-当处理餐盘图片时，请按以下流程：
-1. 使用 detect_dishes_and_portions 识别菜品
-2. 使用 check_and_refine_portions 验证分量
-3. 对每道菜使用 query_nutrition_per_100g 查询营养
-4. 使用 compute_meal_nutrition 计算总营养
-5. 使用 load_recent_meals 加载历史数据
-6. 使用 score_current_meal_llm 评分
-7. 使用 score_weekly_adjusted 趋势评分
-8. 使用 recommend_next_meal 生成推荐
-9. 使用 save_meal 保存数据
-
-开始！
-
-Question: {input}
-Thought: {agent_scratchpad}"""
-
-        prompt = PromptTemplate(
-            template=template,
-            input_variables=["input", "agent_scratchpad", "tools", "tool_names"]
-        )
-        
-        # 创建Agent
-        self.agent = create_react_agent(
-            llm=self.model,
-            tools=self.tools,
-            prompt=prompt
-        )
-        
-        # 创建Agent执行器
-        self.agent_executor = AgentExecutor(
-            agent=self.agent,
-            tools=self.tools,
-            verbose=True,
-            handle_parsing_errors=True,
-            max_iterations=15
+        # 使用LangGraph创建Agent (LangChain 1.0推荐方式)
+        self.agent_executor = create_react_agent(
+            model=self.model,
+            tools=self.tools
         )
     
     def analyze_meal(self, image_path: str, meal_type: str = "午餐") -> dict:
@@ -135,7 +85,7 @@ Thought: {agent_scratchpad}"""
 """
         
         try:
-            result = self.agent_executor.invoke({"input": query})
+            result = self.agent_executor.invoke({"messages": [("user", query)]})
             return result
         except Exception as e:
             print(f"Agent执行错误: {str(e)}")
@@ -146,7 +96,7 @@ Thought: {agent_scratchpad}"""
         query = f"请帮我查询最近{days}天的饮食记录和营养趋势。"
         
         try:
-            result = self.agent_executor.invoke({"input": query})
+            result = self.agent_executor.invoke({"messages": [("user", query)]})
             return result
         except Exception as e:
             print(f"查询历史错误: {str(e)}")
@@ -157,7 +107,7 @@ Thought: {agent_scratchpad}"""
         query = "根据我最近的饮食情况，给我下一餐的推荐。"
         
         try:
-            result = self.agent_executor.invoke({"input": query})
+            result = self.agent_executor.invoke({"messages": [("user", query)]})
             return result
         except Exception as e:
             print(f"推荐生成错误: {str(e)}")

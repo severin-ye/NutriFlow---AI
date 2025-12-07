@@ -162,11 +162,11 @@ if __name__ == "__main__":
         }
     ]
     
-    result = compute_meal_nutrition(test_dishes)
+    result = compute_meal_nutrition.invoke({"dishes": test_dishes})
     import json
     print(json.dumps(result, ensure_ascii=False, indent=2))
     
     # 测试评分
-    score_result = score_current_meal(result["meal_nutrition_total"])
+    score_result = score_current_meal.invoke({"nutrition": result["meal_nutrition_total"]})
     print("\n评分结果:")
     print(json.dumps(score_result, ensure_ascii=False, indent=2))

@@ -5,7 +5,7 @@ import json
 import os
 from datetime import datetime, timedelta
 from langchain.tools import tool
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 from config.settings import DB_PATH, RECENT_DAYS
 
@@ -183,7 +183,7 @@ def save_meal(meal_data: Dict[str, Any]) -> str:
 
 
 @tool
-def get_daily_summary(date: str = None) -> Dict[str, Any]:
+def get_daily_summary(date: Optional[str] = None) -> Dict[str, Any]:
     """
     获取指定日期的营养汇总。
     
@@ -217,9 +217,9 @@ def get_daily_summary(date: str = None) -> Dict[str, Any]:
 if __name__ == "__main__":
     # 测试代码
     print("测试加载最近餐食:")
-    recent = load_recent_meals(7)
+    recent = load_recent_meals.invoke({"days": 7})
     print(json.dumps(recent, ensure_ascii=False, indent=2))
     
     print("\n测试获取每日汇总:")
-    summary = get_daily_summary()
+    summary = get_daily_summary.invoke({})
     print(json.dumps(summary, ensure_ascii=False, indent=2))

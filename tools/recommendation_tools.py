@@ -49,6 +49,8 @@ def score_current_meal_llm(nutrition: Dict[str, float]) -> Dict[str, Any]:
         )
         
         content = response.choices[0].message.content
+        if not content:
+            raise ValueError("模型返回内容为空")
         
         # 提取JSON
         if "```json" in content:
@@ -102,6 +104,8 @@ def score_weekly_adjusted(current_meal: Dict[str, Any], weekly_trend: Dict[str, 
         )
         
         content = response.choices[0].message.content
+        if not content:
+            raise ValueError("模型返回内容为空")
         
         # 提取JSON
         if "```json" in content:
@@ -155,6 +159,8 @@ def recommend_next_meal(current_nutrition: Dict[str, Any], recent_history: Dict[
         )
         
         content = response.choices[0].message.content
+        if not content:
+            raise ValueError("模型返回内容为空")
         
         # 提取JSON
         if "```json" in content:
@@ -192,19 +198,19 @@ if __name__ == "__main__":
     }
     
     print("测试本餐评分:")
-    score = score_current_meal_llm(test_nutrition)
+    score = score_current_meal_llm.invoke({"nutrition": test_nutrition})
     print(json.dumps(score, ensure_ascii=False, indent=2))
     
     print("\n测试趋势评分:")
-    trend_score = score_weekly_adjusted(
-        test_nutrition,
-        {"protein_avg": 40, "sodium_avg": 2200}
-    )
+    trend_score = score_weekly_adjusted.invoke({
+        "current_meal": test_nutrition,
+        "weekly_trend": {"protein_avg": 40, "sodium_avg": 2200}
+    })
     print(json.dumps(trend_score, ensure_ascii=False, indent=2))
     
     print("\n测试下一餐推荐:")
-    recommendation = recommend_next_meal(
-        test_nutrition,
-        {"weekly_trend": {"protein_avg": 35, "sodium_avg": 2100}}
-    )
+    recommendation = recommend_next_meal.invoke({
+        "current_nutrition": test_nutrition,
+        "recent_history": {"weekly_trend": {"protein_avg": 35, "sodium_avg": 2100}}
+    })
     print(json.dumps(recommendation, ensure_ascii=False, indent=2))
