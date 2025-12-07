@@ -1,4 +1,87 @@
 {
   "user_id": "user001",
-  "days": []
+  "days": [
+    {
+      "date": "2025-12-08",
+      "daily_summary": {
+        "total_calories": 0,
+        "total_protein": 0,
+        "total_fat": 0,
+        "total_carbs": 0,
+        "total_sodium": 0,
+        "daily_score": 0
+      },
+      "meals": [
+        {
+          "dishes": [
+            {
+              "name": "宫保鸡丁",
+              "category": "荤菜",
+              "estimated_weight_g": 300,
+              "portion_level": "large",
+              "reason": "菜品在盘中堆叠较高，覆盖了大部分盘面，可见鸡肉丁、花生、胡萝卜丁和黄瓜丁等配料丰富，份量饱满。",
+              "dish_id": "dish_1",
+              "final_weight_g": 300,
+              "is_reasonable": true,
+              "verification_reason": "验证失败: 'str' object has no attribute 'get'",
+              "nutrition_per_100g": {
+                "calories": 115.0,
+                "protein": 8.5,
+                "fat": 6.2,
+                "carbs": 7.3,
+                "sodium": 320.0
+              },
+              "nutrition_total": {
+                "calories": 345.0,
+                "protein": 25.5,
+                "fat": 18.6,
+                "carbs": 21.9,
+                "sodium": 960.0
+              }
+            }
+          ],
+          "meal_nutrition_total": {
+            "calories": 345.0,
+            "protein": 25.5,
+            "fat": 18.6,
+            "carbs": 21.9,
+            "sodium": 960.0
+          },
+          "score": 75,
+          "advice": "热量偏低；蛋白质充足；碳水不足；钠含量略高",
+          "recommendations": [
+            {
+              "title": "高蛋白清淡餐",
+              "recommended_dishes": [
+                "清蒸鸡胸肉",
+                "水煮西兰花",
+                "糙米饭（小份）"
+              ],
+              "reason": "本餐蛋白质摄入尚可但未超标，为维持肌肉合成与饱腹感，推荐优质蛋白如清蒸鸡胸肉；脂肪和热量处于中等水平，搭配低脂烹饪方式可避免累积过多油脂。搭配少量复合碳水（糙米饭）以平衡能量供给。"
+            },
+            {
+              "title": "低钠修复餐",
+              "recommended_dishes": [
+                "番茄豆腐汤",
+                "凉拌黄瓜",
+                "蒸南瓜"
+              ],
+              "reason": "本餐钠含量高达960mg，已属偏高水平，下一餐应着重降低钠摄入，选择天然低钠食材如番茄、豆腐、黄瓜和南瓜，避免加工调味品，帮助身体调节电解质平衡，减少水肿风险。"
+            },
+            {
+              "title": "均衡过渡餐",
+              "recommended_dishes": [
+                "水煮蛋",
+                "混合蔬菜沙拉（橄榄油柠檬汁调味）",
+                "全麦面包一片"
+              ],
+              "reason": "在当前营养结构基础上，提供适度蛋白质补充（水煮蛋）、增加膳食纤维摄入（混合蔬菜），并通过健康脂肪（橄榄油）调节脂肪质量，避免饱和脂肪堆积。整体控制钠与精制碳水，适合平稳过渡。"
+            }
+          ],
+          "meal_id": "meal_2025-12-08_1",
+          "timestamp": "2025-12-08T01:49:21.245094"
+        }
+      ]
+    }
+  ]
 }

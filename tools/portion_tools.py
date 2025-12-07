@@ -23,16 +23,32 @@ client = OpenAI(
 
 
 @tool
-def check_and_refine_portions(dishes: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+def check_and_refine_portions(vision_result: str) -> str:
     """
     检查菜品分量估计是否合理，不合理则重新估算。
     
     参数:
-        dishes: 菜品列表，包含初步的重量估计
+        vision_result: 视觉识别结果JSON字符串，包含 {"dishes": [...], "image_path": "..."}
     
     返回:
-        修正后的菜品列表，包含最终确认的重量
+        JSON字符串格式: {"dishes": [...], "image_path": "..."}
     """
+    # 解析JSON字符串
+    try:
+        vision_data = json.loads(vision_result)
+    except json.JSONDecodeError as e:
+        print(f"⚠️  无法解析vision_result: {str(e)}")
+        return json.dumps({"dishes": [], "image_path": "", "error": "JSON解析失败"}, ensure_ascii=False)
+    
+    # 提取菜品列表和图片路径
+    dishes = vision_data.get("dishes", [])
+    image_path = vision_data.get("image_path", "")
+    
+    # 验证列表不为空
+    if not dishes:
+        print(f"⚠️  dishes列表为空")
+        return json.dumps({"dishes": [], "image_path": image_path, "error": "菜品列表为空"}, ensure_ascii=False)
+    
     # 读取提示词
     prompt_path = os.path.join(PROMPTS_DIR, "portion_prompt.txt")
     with open(prompt_path, "r", encoding="utf-8") as f:
@@ -103,16 +119,28 @@ def check_and_refine_portions(dishes: List[Dict[str, Any]]) -> List[Dict[str, An
             
             result_dishes.append(dish)
         
-        return result_dishes
+        print(f"✅ 分量验证完成，共 {len(result_dishes)} 道菜")
+        result = {
+            "dishes": result_dishes,
+            "image_path": image_path
+        }
+        return json.dumps(result, ensure_ascii=False)
     
     except Exception as e:
         print(f"分量验证错误: {str(e)}")
-        # 如果验证失败，使用原始估计
+        # 返回原始数据（添加默认的final_weight_g）
         for dish in dishes:
-            dish["final_weight_g"] = dish.get("estimated_weight_g")
-            dish["is_reasonable"] = True
-            dish["verification_reason"] = f"验证失败: {str(e)}"
-        return dishes
+            if "final_weight_g" not in dish:
+                dish["final_weight_g"] = dish.get("estimated_weight_g", 200)
+                dish["is_reasonable"] = True
+                dish["verification_reason"] = "验证失败，使用初估值"
+        
+        result = {
+            "dishes": dishes,
+            "image_path": image_path,
+            "error": str(e)
+        }
+        return json.dumps(result, ensure_ascii=False)
 
 
 if __name__ == "__main__":

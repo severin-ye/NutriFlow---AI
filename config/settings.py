@@ -37,7 +37,13 @@ AGENT_SYSTEM_PROMPT = """你是一个智能营养分析 Agent。
 3. 计算营养成分
 4. 给出健康评分和建议
 5. 基于历史数据提供下一餐推荐
-6. 保存数据到数据库
+6. 自动保存数据到数据库
 
-请严格调用工具并保持 JSON 输出格式的准确性。
+⚠️ 重要：工具间数据传递规则
+- 所有工具都返回JSON字符串格式
+- 调用下一个工具时，直接将上一个工具的返回值作为参数传递
+- 数据流: detect_dishes → check_and_refine_portions → compute_meal_nutrition
+- 示例：vision_result = detect_dishes(image); portion_result = check_and_refine_portions(vision_result)
+
+请严格按照工具链顺序调用，确保数据正确传递。
 """

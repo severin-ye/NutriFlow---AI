@@ -1,21 +1,41 @@
 """
 ComputeTool - 计算整餐营养总量
 """
+import json
 from langchain.tools import tool
 from typing import List, Dict, Any
 
 
 @tool
-def compute_meal_nutrition(dishes: List[Dict[str, Any]]) -> Dict[str, Any]:
+def compute_meal_nutrition(portion_result: str) -> str:
     """
     计算整餐的营养总量。
     
     参数:
-        dishes: 菜品列表，每个菜品包含final_weight_g和nutrition_per_100g
+        portion_result: 分量验证结果JSON字符串，包含 {"dishes": [...], "image_path": "..."}
     
     返回:
-        包含dishes(每道菜的总营养)和meal_nutrition_total(整餐营养总计)
+        JSON字符串格式: {"dishes": [...], "meal_nutrition_total": {...}, "image_path": "..."}
     """
+    # 解析JSON字符串
+    try:
+        portion_data = json.loads(portion_result)
+    except json.JSONDecodeError as e:
+        print(f"⚠️  无法解析portion_result: {str(e)}")
+        return json.dumps({"dishes": [], "meal_nutrition_total": {}, "error": "JSON解析失败"}, ensure_ascii=False)
+    
+    # 提取菜品列表和图片路径
+    dishes = portion_data.get("dishes", [])
+    image_path = portion_data.get("image_path", "")
+    
+    if not dishes:
+        return json.dumps({
+            "dishes": [],
+            "meal_nutrition_total": {},
+            "image_path": image_path,
+            "error": "没有菜品数据"
+        }, ensure_ascii=False)
+    
     result_dishes = []
     meal_total = {
         "calories": 0.0,
@@ -54,10 +74,13 @@ def compute_meal_nutrition(dishes: List[Dict[str, Any]]) -> Dict[str, Any]:
     for key in meal_total:
         meal_total[key] = round(meal_total[key], 2)
     
-    return {
+    result = {
         "dishes": result_dishes,
-        "meal_nutrition_total": meal_total
+        "meal_nutrition_total": meal_total,
+        "image_path": image_path
     }
+    return json.dumps(result, ensure_ascii=False)
+    return json.dumps(result, ensure_ascii=False)
 
 
 @tool  
