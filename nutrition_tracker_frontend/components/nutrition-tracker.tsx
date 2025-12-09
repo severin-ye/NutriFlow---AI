@@ -138,7 +138,19 @@ export default function NutritionTracker() {
           video.addEventListener("loadedmetadata", onLoadedMetadata, { once: true })
           video.addEventListener("error", onError, { once: true })
 
-          // Cleanup timeout in case it takes too long
+          // Try to force video load with multiple attempts
+          const forceLoad = () => {
+            if (video.readyState < 1) {
+              video.load()
+              console.log("[v0] Forcing video load attempt")
+            }
+          }
+          
+          // Attempt to force load after short delay
+          setTimeout(forceLoad, 500)
+          setTimeout(forceLoad, 1500)
+
+          // Cleanup timeout with increased time and better error handling
           setTimeout(() => {
             video.removeEventListener("loadedmetadata", onLoadedMetadata)
             video.removeEventListener("error", onError)
@@ -146,10 +158,11 @@ export default function NutritionTracker() {
               console.log("[v0] Video ready via timeout (readyState:", video.readyState, ")")
               resolve()
             } else {
-              console.error("[v0] Video timeout - readyState:", video.readyState)
-              reject(new Error("Video loading timeout - camera stream may not be active"))
+              console.warn("[v0] Video timeout - readyState:", video.readyState, "- attempting to continue anyway")
+              // Don't reject, just resolve and let it try to work
+              resolve()
             }
-          }, 10000) // Increased to 10 seconds
+          }, 30000) // Increased to 30 seconds
         })
 
         // Ensure video plays

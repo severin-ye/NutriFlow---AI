@@ -4,11 +4,11 @@
     {
       "date": "2025-12-09",
       "daily_summary": {
-        "total_calories": 3607.5,
-        "total_protein": 166.95,
-        "total_fat": 158.35,
-        "total_carbs": 389.35,
-        "total_sodium": 8673.0,
+        "total_calories": 3997.5,
+        "total_protein": 189.45,
+        "total_fat": 177.85,
+        "total_carbs": 425.35,
+        "total_sodium": 9813.0,
         "daily_score": 0
       },
       "meals": [
@@ -470,6 +470,45 @@
           "image_path": "/tmp/tmp24rk2pab.png",
           "meal_id": "meal_2025-12-09_6",
           "timestamp": "2025-12-09T11:23:25.022957"
+        },
+        {
+          "dishes": [
+            {
+              "name": "Chicken Fried Rice",
+              "category": "Staple",
+              "estimated_weight_g": 300,
+              "portion_level": "medium",
+              "reason": "The portion fills a standard-sized plate, with visible grains of rice and evenly distributed chicken and vegetables. The volume suggests a typical serving size for one person.",
+              "dish_id": "dish_1",
+              "final_weight_g": 300,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 130.0,
+                "protein": 7.5,
+                "fat": 6.5,
+                "carbs": 12.0,
+                "sodium": 380.0
+              },
+              "nutrition_total": {
+                "calories": 390.0,
+                "protein": 22.5,
+                "fat": 19.5,
+                "carbs": 36.0,
+                "sodium": 1140.0
+              }
+            }
+          ],
+          "meal_nutrition_total": {
+            "calories": 390.0,
+            "protein": 22.5,
+            "fat": 19.5,
+            "carbs": 36.0,
+            "sodium": 1140.0
+          },
+          "image_path": "/tmp/tmpvtu70_0z.png",
+          "meal_id": "meal_2025-12-09_7",
+          "timestamp": "2025-12-09T18:37:19.054598"
         }
       ]
     }
