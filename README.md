@@ -29,6 +29,23 @@ NutriFlow AI is a comprehensive nutrition analysis platform that uses cutting-ed
 
 ---
 
+## 📸 Screenshots
+
+<div align="center">
+
+### Main Interface
+<img src="./images/screenshot-main-page.png" width="700" alt="Main Page">
+
+### Meal Analysis Result
+<img src="./images/screenshot-meal-analysis.png" width="700" alt="Meal Analysis">
+
+### Daily Summary Dashboard
+<img src="./images/screenshot-daily-summary.png" width="700" alt="Daily Summary">
+
+</div>
+
+---
+
 ## ✨ Features
 
 ### Core Capabilities

@@ -29,6 +29,23 @@ NutriFlow AI 是一个综合性的营养分析平台，使用前沿的 AI 技术
 
 ---
 
+## 📸 界面截图
+
+<div align="center">
+
+### 主界面
+<img src="./images/screenshot-main-page.png" width="700" alt="主页面">
+
+### 餐食分析结果
+<img src="./images/screenshot-meal-analysis.png" width="700" alt="餐食分析">
+
+### 每日总结仪表板
+<img src="./images/screenshot-daily-summary.png" width="700" alt="每日总结">
+
+</div>
+
+---
+
 ## ✨ 功能特性
 
 ### 核心能力
