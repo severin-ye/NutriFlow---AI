@@ -6,6 +6,8 @@
 
 Built with LangChain 1.0 + LangGraph | Alibaba Qwen Models | React + TypeScript
 
+English | [简体中文](./README.zh-CN.md)
+
 [Features](#-features) • [Architecture](#-architecture) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [API](#-api-documentation)
 
 </div>
