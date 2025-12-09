@@ -6,6 +6,7 @@ import { useState, useRef, useCallback, useEffect } from "react"
 import { Camera, Upload, Sparkles, X, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { addMeal } from "@/types/meal"
 
 const API_URL=process.env.NEXT_PUBLIC_API_URL;
 
@@ -292,12 +293,24 @@ export default function NutritionTracker() {
 
         setAnalysisResult(roundedDish);
         console.log("[API] Backend result:", roundedDish);
+        
+        // Save meal to localStorage
+        const savedMeal = addMeal({
+            food: roundedDish.food,
+            calories: roundedDish.calories,
+            protein: roundedDish.protein,
+            carbs: roundedDish.carbs,
+            fat: roundedDish.fat,
+            imageUrl: imagePreview || ''
+        });
+        console.log("[Storage] Meal saved:", savedMeal);
+        
         } catch (err) {
             console.error("Analyze API error:", err);
         } finally {
             setIsAnalyzing(false);
         }
-    }, [capturedImage]);
+    }, [capturedImage, imagePreview]);
 // Reset to initial state
   const reset = useCallback(() => {
     stopCamera()
