@@ -1,0 +1,10 @@
+{
+  "name": "Chicken Fried Rice",
+  "nutrition_total": {
+    "calories": 650,
+    "protein": 37.5,
+    "fat": 31,
+    "carbs": 64,
+    "sodium": 1600
+  }
+}

@@ -1,0 +1,477 @@
+{
+  "user_id": "user001",
+  "days": [
+    {
+      "date": "2025-12-09",
+      "daily_summary": {
+        "total_calories": 3607.5,
+        "total_protein": 166.95,
+        "total_fat": 158.35,
+        "total_carbs": 389.35,
+        "total_sodium": 8673.0,
+        "daily_score": 0
+      },
+      "meals": [
+        {
+          "dishes": [
+            {
+              "name": "Masala Dosa",
+              "category": "Staple",
+              "estimated_weight_g": 200,
+              "portion_level": "large",
+              "reason": "The dosa is a large, rolled crepe that appears to be the main component of the meal, occupying a significant portion of the plate.",
+              "dish_id": "dish_1",
+              "final_weight_g": 200,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 150.0,
+                "protein": 4.5,
+                "fat": 6.0,
+                "carbs": 18.0,
+                "sodium": 300.0
+              },
+              "nutrition_total": {
+                "calories": 300.0,
+                "protein": 9.0,
+                "fat": 12.0,
+                "carbs": 36.0,
+                "sodium": 600.0
+              }
+            },
+            {
+              "name": "Potato Masala",
+              "category": "Vegetable",
+              "estimated_weight_g": 100,
+              "portion_level": "medium",
+              "reason": "The potato masala is served in a small metal bowl and appears to be a side dish, with a volume roughly equivalent to the size of the bowl.",
+              "dish_id": "dish_2",
+              "final_weight_g": 100,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 95.0,
+                "protein": 2.5,
+                "fat": 4.5,
+                "carbs": 12.0,
+                "sodium": 300.0
+              },
+              "nutrition_total": {
+                "calories": 95.0,
+                "protein": 2.5,
+                "fat": 4.5,
+                "carbs": 12.0,
+                "sodium": 300.0
+              }
+            },
+            {
+              "name": "Coconut Chutney",
+              "category": "Snack",
+              "estimated_weight_g": 50,
+              "portion_level": "small",
+              "reason": "The chutney is in a small, shallow white bowl and appears to be a condiment, with a volume smaller than the other dishes.",
+              "dish_id": "dish_3",
+              "final_weight_g": 50,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 120.0,
+                "protein": 2.5,
+                "fat": 10.0,
+                "carbs": 6.0,
+                "sodium": 150.0
+              },
+              "nutrition_total": {
+                "calories": 60.0,
+                "protein": 1.25,
+                "fat": 5.0,
+                "carbs": 3.0,
+                "sodium": 75.0
+              }
+            },
+            {
+              "name": "Red Chutney",
+              "category": "Snack",
+              "estimated_weight_g": 30,
+              "portion_level": "small",
+              "reason": "The red chutney is in a very small white bowl and appears to be a condiment, with a volume significantly smaller than the other dishes.",
+              "dish_id": "dish_4",
+              "final_weight_g": 30,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 150.0,
+                "protein": 2.5,
+                "fat": 8.0,
+                "carbs": 18.0,
+                "sodium": 400.0
+              },
+              "nutrition_total": {
+                "calories": 45.0,
+                "protein": 0.75,
+                "fat": 2.4,
+                "carbs": 5.4,
+                "sodium": 120.0
+              }
+            }
+          ],
+          "meal_nutrition_total": {
+            "calories": 500.0,
+            "protein": 13.5,
+            "fat": 23.9,
+            "carbs": 56.4,
+            "sodium": 1095.0
+          },
+          "image_path": "/tmp/tmp80bsizg9.png",
+          "meal_id": "meal_2025-12-09_1",
+          "timestamp": "2025-12-09T09:25:10.152354"
+        },
+        {
+          "dishes": [
+            {
+              "name": "Cashew Stir-Fry with Vegetables",
+              "category": "Vegetable",
+              "estimated_weight_g": 250,
+              "portion_level": "medium",
+              "reason": "The stir-fry appears to be a balanced portion, filling about half the plate. The visible ingredients include bell peppers, snap peas, and cashews, suggesting a vegetable-heavy dish.",
+              "dish_id": "dish_1",
+              "final_weight_g": 250,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 120.0,
+                "protein": 4.5,
+                "fat": 8.2,
+                "carbs": 9.3,
+                "sodium": 280.0
+              },
+              "nutrition_total": {
+                "calories": 300.0,
+                "protein": 11.25,
+                "fat": 20.5,
+                "carbs": 23.25,
+                "sodium": 700.0
+              }
+            },
+            {
+              "name": "Steamed White Rice",
+              "category": "Staple",
+              "estimated_weight_g": 150,
+              "portion_level": "medium",
+              "reason": "The rice occupies approximately one-third of the plate, which is a typical serving size for a side dish accompanying a main course.",
+              "dish_id": "dish_2",
+              "final_weight_g": 150,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 130.0,
+                "protein": 2.7,
+                "fat": 0.3,
+                "carbs": 28.2,
+                "sodium": 2.0
+              },
+              "nutrition_total": {
+                "calories": 195.0,
+                "protein": 4.05,
+                "fat": 0.45,
+                "carbs": 42.3,
+                "sodium": 3.0
+              }
+            }
+          ],
+          "meal_nutrition_total": {
+            "calories": 495.0,
+            "protein": 15.3,
+            "fat": 20.95,
+            "carbs": 65.55,
+            "sodium": 703.0
+          },
+          "image_path": "/tmp/tmpsrtm519l.png",
+          "meal_id": "meal_2025-12-09_2",
+          "timestamp": "2025-12-09T09:27:38.811537"
+        },
+        {
+          "dishes": [
+            {
+              "name": "Chicken Biryani",
+              "category": "Staple",
+              "estimated_weight_g": 400,
+              "portion_level": "large",
+              "reason": "The main dish is a large, round metal pot filled with biryani, which appears to be a full meal portion. The visible rice and chicken suggest a substantial serving.",
+              "dish_id": "dish_1",
+              "final_weight_g": 400,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 190.0,
+                "protein": 8.5,
+                "fat": 7.2,
+                "carbs": 22.3,
+                "sodium": 380.0
+              },
+              "nutrition_total": {
+                "calories": 760.0,
+                "protein": 34.0,
+                "fat": 28.8,
+                "carbs": 89.2,
+                "sodium": 1520.0
+              }
+            },
+            {
+              "name": "Spiced Chicken Leg",
+              "category": "Meat",
+              "estimated_weight_g": 150,
+              "portion_level": "medium",
+              "reason": "A single chicken leg is prominently placed on top of the biryani, indicating it as a separate component. Its size relative to the pot suggests a medium portion.",
+              "dish_id": "dish_2",
+              "final_weight_g": 150,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 175.0,
+                "protein": 20.5,
+                "fat": 9.8,
+                "carbs": 3.2,
+                "sodium": 480.0
+              },
+              "nutrition_total": {
+                "calories": 262.5,
+                "protein": 30.75,
+                "fat": 14.7,
+                "carbs": 4.8,
+                "sodium": 720.0
+              }
+            },
+            {
+              "name": "Herb-Infused Soup",
+              "category": "Soup",
+              "estimated_weight_g": 200,
+              "portion_level": "small",
+              "reason": "Two small bowls of soup are present in the background. Their size compared to the main dish indicates they are side portions meant for dipping or sharing.",
+              "dish_id": "dish_3",
+              "final_weight_g": 200,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 25.0,
+                "protein": 1.2,
+                "fat": 0.8,
+                "carbs": 3.0,
+                "sodium": 450.0
+              },
+              "nutrition_total": {
+                "calories": 50.0,
+                "protein": 2.4,
+                "fat": 1.6,
+                "carbs": 6.0,
+                "sodium": 900.0
+              }
+            }
+          ],
+          "meal_nutrition_total": {
+            "calories": 1072.5,
+            "protein": 67.15,
+            "fat": 45.1,
+            "carbs": 100.0,
+            "sodium": 3140.0
+          },
+          "image_path": "/tmp/tmpmg7mauz9.png",
+          "meal_id": "meal_2025-12-09_3",
+          "timestamp": "2025-12-09T09:47:21.435793"
+        },
+        {
+          "dishes": [
+            {
+              "name": "Chicken Fried Rice",
+              "category": "Staple",
+              "estimated_weight_g": 500,
+              "portion_level": "large",
+              "reason": "The bowl is filled to the brim with fried rice, indicating a generous serving. The visible ingredients (rice, chicken, carrots, peas) suggest a substantial portion typical of a main course.",
+              "dish_id": "dish_1",
+              "final_weight_g": 500,
+              "is_reasonable": true,
+              "verification_reason": "A 500g portion of chicken fried rice is typical for a single serving, especially as a main dish. This weight includes rice, chicken, and vegetables, which aligns with common portion sizes in restaurants or home meals.",
+              "nutrition_per_100g": {
+                "calories": 130.0,
+                "protein": 7.0,
+                "fat": 5.0,
+                "carbs": 15.0,
+                "sodium": 300.0
+              },
+              "nutrition_total": {
+                "calories": 650.0,
+                "protein": 35.0,
+                "fat": 25.0,
+                "carbs": 75.0,
+                "sodium": 1500.0
+              }
+            }
+          ],
+          "meal_nutrition_total": {
+            "calories": 650.0,
+            "protein": 35.0,
+            "fat": 25.0,
+            "carbs": 75.0,
+            "sodium": 1500.0
+          },
+          "image_path": "/tmp/tmpa_r6dcmg.png",
+          "meal_id": "meal_2025-12-09_4",
+          "timestamp": "2025-12-09T10:28:19.171751"
+        },
+        {
+          "dishes": [
+            {
+              "name": "Masala Dosa",
+              "category": "Staple",
+              "estimated_weight_g": 200,
+              "portion_level": "large",
+              "reason": "The dosa is a large, rolled crepe that appears to be the main component of the meal, occupying a significant portion of the plate.",
+              "dish_id": "dish_1",
+              "final_weight_g": 200,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 150.0,
+                "protein": 4.5,
+                "fat": 6.0,
+                "carbs": 18.0,
+                "sodium": 300.0
+              },
+              "nutrition_total": {
+                "calories": 300.0,
+                "protein": 9.0,
+                "fat": 12.0,
+                "carbs": 36.0,
+                "sodium": 600.0
+              }
+            },
+            {
+              "name": "Potato Masala",
+              "category": "Vegetable",
+              "estimated_weight_g": 100,
+              "portion_level": "medium",
+              "reason": "The potato masala is served in a small metal bowl and appears to be a side dish, with a volume roughly equivalent to the size of the bowl.",
+              "dish_id": "dish_2",
+              "final_weight_g": 100,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 95.0,
+                "protein": 2.5,
+                "fat": 4.5,
+                "carbs": 12.0,
+                "sodium": 300.0
+              },
+              "nutrition_total": {
+                "calories": 95.0,
+                "protein": 2.5,
+                "fat": 4.5,
+                "carbs": 12.0,
+                "sodium": 300.0
+              }
+            },
+            {
+              "name": "Coconut Chutney",
+              "category": "Snack",
+              "estimated_weight_g": 50,
+              "portion_level": "small",
+              "reason": "The chutney is in a small, shallow white bowl and appears to be a condiment, with a volume smaller than the other dishes.",
+              "dish_id": "dish_3",
+              "final_weight_g": 50,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 120.0,
+                "protein": 2.5,
+                "fat": 10.0,
+                "carbs": 6.0,
+                "sodium": 150.0
+              },
+              "nutrition_total": {
+                "calories": 60.0,
+                "protein": 1.25,
+                "fat": 5.0,
+                "carbs": 3.0,
+                "sodium": 75.0
+              }
+            },
+            {
+              "name": "Red Chutney",
+              "category": "Snack",
+              "estimated_weight_g": 30,
+              "portion_level": "small",
+              "reason": "The red chutney is in a very small white bowl and appears to be a condiment, with a volume significantly smaller than the other dishes.",
+              "dish_id": "dish_4",
+              "final_weight_g": 30,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 150.0,
+                "protein": 2.5,
+                "fat": 8.0,
+                "carbs": 18.0,
+                "sodium": 400.0
+              },
+              "nutrition_total": {
+                "calories": 45.0,
+                "protein": 0.75,
+                "fat": 2.4,
+                "carbs": 5.4,
+                "sodium": 120.0
+              }
+            }
+          ],
+          "meal_nutrition_total": {
+            "calories": 500.0,
+            "protein": 13.5,
+            "fat": 23.9,
+            "carbs": 56.4,
+            "sodium": 1095.0
+          },
+          "image_path": "/tmp/tmp80bsizg9.png",
+          "meal_id": "meal_2025-12-09_1",
+          "timestamp": "2025-12-09T09:25:10.152354"
+        },
+        {
+          "dishes": [
+            {
+              "name": "Chicken Fried Rice",
+              "category": "Staple",
+              "estimated_weight_g": 300,
+              "portion_level": "medium",
+              "reason": "The portion fills a standard-sized plate, with visible grains of rice and evenly distributed chicken and vegetables. The volume suggests a typical serving size for one person.",
+              "dish_id": "dish_1",
+              "final_weight_g": 300,
+              "is_reasonable": true,
+              "verification_reason": "",
+              "nutrition_per_100g": {
+                "calories": 130.0,
+                "protein": 7.5,
+                "fat": 6.5,
+                "carbs": 12.0,
+                "sodium": 380.0
+              },
+              "nutrition_total": {
+                "calories": 390.0,
+                "protein": 22.5,
+                "fat": 19.5,
+                "carbs": 36.0,
+                "sodium": 1140.0
+              }
+            }
+          ],
+          "meal_nutrition_total": {
+            "calories": 390.0,
+            "protein": 22.5,
+            "fat": 19.5,
+            "carbs": 36.0,
+            "sodium": 1140.0
+          },
+          "image_path": "/tmp/tmp24rk2pab.png",
+          "meal_id": "meal_2025-12-09_6",
+          "timestamp": "2025-12-09T11:23:25.022957"
+        }
+      ]
+    }
+  ]
+}

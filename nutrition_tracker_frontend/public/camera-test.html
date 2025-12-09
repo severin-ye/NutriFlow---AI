@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Test</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        #video {
+            width: 100%;
+            max-width: 640px;
+            background: #000;
+            border: 2px solid #333;
+            display: block;
+            margin: 20px 0;
+        }
+        button {
+            background: #0070f3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0051cc;
+        }
+        #logs {
+            background: #222;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .log-entry {
+            margin: 3px 0;
+            padding: 3px;
+        }
+        .log-info { color: #4CAF50; }
+        .log-error { color: #f44336; }
+        .log-warn { color: #ff9800; }
+    </style>
+</head>
+<body>
+    <h1>📷 Camera Test Page</h1>
+    <p>This is a simple test to verify camera access works in your browser.</p>
+    
+    <div>
+        <button onclick="startCamera()">Start Camera</button>
+        <button onclick="stopCamera()">Stop Camera</button>
+    </div>
+    
+    <video id="video" autoplay playsinline muted></video>
+    
+    <div id="logs">
+        <div class="log-entry log-info">Ready to test camera...</div>
+    </div>
+
+    <script>
+        let stream = null;
+        const video = document.getElementById('video');
+        const logsDiv = document.getElementById('logs');
+
+        function log(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logsDiv.appendChild(entry);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+            console.log(message);
+        }
+
+        async function startCamera() {
+            log('Starting camera...', 'info');
+            
+            try {
+                // Check if mediaDevices is available
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    throw new Error('getUserMedia not supported in this browser');
+                }
+
+                log('Requesting camera access...', 'info');
+                
+                // Try back camera first
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({
+                        video: { 
+                            facingMode: 'environment',
+                            width: { ideal: 1920 },
+                            height: { ideal: 1080 }
+                        },
+                        audio: false
+                    });
+                    log('✓ Back camera accessed successfully!', 'info');
+                } catch (err) {
+                    log('Back camera not available, trying default...', 'warn');
+                    stream = await navigator.mediaDevices.getUserMedia({
+                        video: {
+                            width: { ideal: 1920 },
+                            height: { ideal: 1080 }
+                        },
+                        audio: false
+                    });
+                    log('✓ Default camera accessed successfully!', 'info');
+                }
+
+                // Log stream info
+                const tracks = stream.getTracks();
+                tracks.forEach(track => {
+                    log(`Track: ${track.kind} | ${track.label} | State: ${track.readyState} | Enabled: ${track.enabled}`, 'info');
+                });
+
+                // Attach to video element
+                video.srcObject = stream;
+                log('Stream attached to video element', 'info');
+
+                // Wait for metadata
+                video.addEventListener('loadedmetadata', () => {
+                    log(`✓ Video metadata loaded! Dimensions: ${video.videoWidth}x${video.videoHeight}`, 'info');
+                    log(`Video readyState: ${video.readyState}`, 'info');
+                }, { once: true });
+
+                // Play video
+                await video.play();
+                log('✓ Video is playing!', 'info');
+
+            } catch (error) {
+                log(`✗ Error: ${error.name} - ${error.message}`, 'error');
+                if (error.name === 'NotAllowedError') {
+                    log('Camera permission was denied. Please allow camera access and try again.', 'error');
+                } else if (error.name === 'NotFoundError') {
+                    log('No camera device found on this system.', 'error');
+                } else if (error.name === 'NotReadableError') {
+                    log('Camera is already in use by another application.', 'error');
+                }
+            }
+        }
+
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => {
+                    track.stop();
+                    log(`Stopped track: ${track.label}`, 'info');
+                });
+                stream = null;
+                video.srcObject = null;
+                log('Camera stopped', 'info');
+            } else {
+                log('No camera stream to stop', 'warn');
+            }
+        }
+
+        // Log browser info
+        log(`Browser: ${navigator.userAgent}`, 'info');
+        log(`Protocol: ${window.location.protocol}`, 'info');
+        if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+            log('⚠ WARNING: Camera access requires HTTPS or localhost', 'warn');
+        }
+    </script>
+</body>
+</html>

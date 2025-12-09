@@ -1,0 +1,110 @@
+.
+├── "nutrition_tracker_AI
+│   └── doc
+│       ├── \345\256\236\347\216\260\351\241\272\345\272\217.md"
+│       ├── \350\201\224\347\275\221\346\237\245\350\257\242\350\257\264\346\230\216.md"
+│       ├── \350\256\276\350\256\241\346\200\235\350\267\257 \350\201\224\347\275\221\347\211\210.md"
+│       ├── \350\256\276\350\256\241\346\200\235\350\267\257.md"
+│       └── langchain 1.0\346\225\231\347\250\213.md"
+├── nutrition_tracker_AI
+│   ├── ai_nutrition_agent
+│   │   ├── agent.py
+│   │   ├── config
+│   │   │   ├── __init__.py
+│   │   │   └── settings.py
+│   │   ├── db
+│   │   │   └── meals.json
+│   │   ├── gui_agent.py
+│   │   ├── __init__.py
+│   │   ├── prompts
+│   │   │   ├── nextmeal_prompt.txt
+│   │   │   ├── portion_prompt.txt
+│   │   │   ├── score_prompt.txt
+│   │   │   ├── summary_prompt.txt
+│   │   │   ├── trend_prompt.txt
+│   │   │   └── vision_prompt.txt
+│   │   ├── schemas
+│   │   │   ├── __init__.py
+│   │   │   ├── meal_schema.py
+│   │   │   └── tool_schema.py
+│   │   └── tools
+│   │       ├── compute_tools.py
+│   │       ├── db_tools.py
+│   │       ├── __init__.py
+│   │       ├── meal_type_tools.py
+│   │       ├── nutrition_tools.py
+│   │       ├── portion_tools.py
+│   │       ├── recommendation_tools.py
+│   │       └── vision_tools.py
+│   ├── db
+│   │   └── meals.json
+│   ├── image.png
+│   ├── main.py
+│   ├── my_file.txt
+│   ├── output.json
+│   ├── README.md
+│   ├── requirements.txt
+│   └── tests
+│       ├── __init__.py
+│       ├── test_agent.py
+│       ├── test_complete_chain.py
+│       ├── test_save.py
+│       ├── test_tools.py
+│       └── verify_db.py
+├── nutrition_tracker_backend
+│   ├── data
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── server.js
+│   └── src
+│       ├── controllers
+│       │   ├── analyzeController.js
+│       │   ├── authController.js
+│       │   └── helpers
+│       │       ├── langchainClient.js
+│       │       └── nutritionStorage.js
+│       ├── middleware
+│       │   └── auth.js
+│       └── routes
+│           ├── analyze.js
+│           └── auth.js
+└── nutrition_tracker_frontend
+    ├── app
+    │   ├── auth
+    │   │   └── page.tsx
+    │   ├── favicon.ico
+    │   ├── globals.css
+    │   ├── layout.tsx
+    │   ├── page.tsx
+    │   └── summary
+    │       └── page.tsx
+    ├── components
+    │   ├── daily-summary.tsx
+    │   ├── nutrition-tracker.tsx
+    │   └── ui
+    │       ├── button.tsx
+    │       └── card.tsx
+    ├── components.json
+    ├── data
+    │   └── users.json
+    ├── eslint.config.mjs
+    ├── lib
+    │   └── utils.ts
+    ├── next.config.ts
+    ├── package.json
+    ├── package-lock.json
+    ├── postcss.config.mjs
+    ├── public
+    │   ├── camera-test.html
+    │   ├── file.svg
+    │   ├── globe.svg
+    │   ├── next.svg
+    │   ├── vercel.svg
+    │   └── window.svg
+    ├── README.md
+    ├── tsconfig.json
+    └── types
+        ├── meal.ts
+        └── user.ts
+
+29 directories, 79 files

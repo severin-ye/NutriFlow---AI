@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Chicken Fried Rice",
+    "category": "Staple",
+    "estimated_weight_g": 300,
+    "portion_level": "medium",
+    "reason": "The portion fills a standard-sized plate, with visible grains of rice and evenly distributed chicken and vegetables. The volume suggests a typical serving size for one person.",
+    "dish_id": "dish_1"
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "email": "angelaemilejose@gmail.com",
+    "password": "qwerty",
+    "name": "JOSE ANGELA EMILE",
+    "age": 25,
+    "weight": 102,
+    "height": 130
+  },
+  {
+    "email": "test@gmail.com",
+    "password": "test",
+    "name": "test",
+    "age": 20,
+    "weight": 70,
+    "height": 180
+  }
+]
