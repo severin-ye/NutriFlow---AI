@@ -1,0 +1,690 @@
+# 🍽️ NutriFlow AI - 智能营养分析系统
+
+<div align="center">
+
+**基于 AI 的全栈营养追踪平台**
+
+基于 LangChain 1.0 + LangGraph | 阿里巴巴通义千问模型 | React + TypeScript 构建
+
+[English](./README.md) | 简体中文
+
+[功能特性](#-功能特性) • [系统架构](#-系统架构) • [快速开始](#-快速开始) • [文档](#-文档) • [API](#-api-文档)
+
+</div>
+
+---
+
+## 📖 项目概述
+
+NutriFlow AI 是一个综合性的营养分析平台，使用前沿的 AI 技术帮助用户追踪饮食摄入、分析营养平衡并提供个性化的膳食建议。
+
+### 为什么选择 NutriFlow？
+
+- 🤖 **AI 驱动分析**: 利用阿里巴巴通义千问多模态模型进行精准的菜品识别
+- 🔍 **计算机视觉**: 自动识别单张照片中的多个菜品
+- 📊 **实时营养数据**: 联网查询最新的营养信息
+- 🎯 **个性化洞察**: AI 驱动的健康评分和膳食推荐
+- 📈 **趋势分析**: 7 天饮食模式追踪和洞察
+- 🌐 **全栈解决方案**: 从 AI 后端到 React 前端的完整系统
+
+---
+
+## 📸 界面截图
+
+<div align="center">
+
+### 主界面
+<img src="./images/screenshot-main-page.png" width="700" alt="主页面">
+
+### 餐食分析结果
+<img src="./images/screenshot-meal-analysis.png" width="700" alt="餐食分析">
+
+### 每日总结仪表板
+<img src="./images/screenshot-daily-summary.png" width="700" alt="每日总结">
+
+</div>
+
+---
+
+## ✨ 功能特性
+
+### 核心能力
+
+| 功能 | 描述 |
+|------|------|
+| 🔍 **智能图像识别** | Qwen-VL-Plus 高精度识别盘中所有菜品 |
+| ⚖️ **份量估算** | AI 估算份量大小（小/中/大）并验证合理性 |
+| 🌐 **在线营养查询** | 实时网络搜索获取最新营养数据 |
+| 📊 **营养计算** | 计算 5 大关键营养素：热量、蛋白质、脂肪、碳水化合物、钠 |
+| 🎯 **健康评分** | 基于营养平衡提供评分（0-100）|
+| 📈 **饮食趋势** | 分析最近 7 天的饮食模式 |
+| 🕐 **用餐类型推断** | 从时间戳自动检测早餐/午餐/晚餐/零食 |
+| 💡 **智能推荐** | 基于营养缺口推荐下一餐 |
+| 💾 **数据持久化** | 将完整的用餐历史存储在结构化 JSON 数据库中 |
+
+### 用户体验
+
+- ✅ **一键分析**: 上传照片 → 自动获取完整分析
+- ✅ **无需手动输入**: 无需输入菜品名称或份量大小
+- ✅ **历史追踪**: 查询和可视化过往用餐记录
+- ✅ **趋势洞察**: 了解你的饮食习惯
+- ✅ **可操作建议**: 获取下一餐的具体食物推荐
+
+---
+
+## 🏗️ 系统架构
+
+### 系统组件
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     NutriFlow AI 平台                       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌─────────────┐     ┌──────────────┐     ┌─────────────┐ │
+│  │   前端界面  │────▶│  API 后端    │────▶│  AI 后端    │ │
+│  │  (React/TS) │◀────│  (Node.js)   │◀────│  (Python)   │ │
+│  └─────────────┘     └──────────────┘     └─────────────┘ │
+│         │                    │                     │        │
+│         │                    │                     │        │
+│    用户上传              认证与 API            LangChain    │
+│    界面显示              路由分发              12个工具     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 技术栈
+
+#### 前端 (`nutrition_tracker_frontend/`)
+- **框架**: Next.js 14 + React 18
+- **语言**: TypeScript
+- **UI 库**: shadcn/ui (Tailwind CSS)
+- **核心功能**: 
+  - 响应式相机界面用于拍摄餐食
+  - 实时营养显示
+  - 历史数据可视化
+  - 用户认证
+
+#### API 后端 (`nutrition_tracker_backend/`)
+- **运行时**: Node.js
+- **框架**: Express.js
+- **认证**: 基于 JWT 的认证
+- **核心功能**:
+  - RESTful API 端点
+  - 图片上传处理
+  - 用户会话管理
+  - 请求路由到 AI 后端
+
+#### AI 后端 (`nutrition_tracker_AI/`)
+- **框架**: LangChain 1.0 + LangGraph
+- **模型**: 
+  - Qwen-VL-Plus (视觉)
+  - Qwen-Plus (文本推理)
+- **工具**: 12 个专业代理工具
+- **数据库**: 基于 JSON 的结构化存储
+- **核心功能**:
+  - 多模态图像分析
+  - 在线营养查询
+  - 健康评分算法
+  - 膳食推荐
+
+---
+
+## 🚀 快速开始
+
+### 前置要求
+
+- **Python**: 3.12 或更高版本
+- **Node.js**: 18.x 或更高版本
+- **阿里云 API 密钥**: DashScope (通义千问模型)
+
+### 安装步骤
+
+#### 1. 克隆仓库
+
+```bash
+git clone https://github.com/severin-ye/NutriFlow-AI.git
+cd NutriFlow-AI
+```
+
+#### 2. 配置 AI 后端
+
+```bash
+cd nutrition_tracker_AI
+
+# 创建虚拟环境
+python3 -m venv .venv
+source .venv/bin/activate  # Windows 系统使用: .venv\Scripts\activate
+
+# 安装依赖
+pip install -r requirements.txt
+
+# 创建 .env 文件
+echo "DASHSCOPE_API_KEY=your_api_key_here" > .env
+```
+
+**获取 API 密钥**: 访问 [阿里云百炼平台](https://bailian.console.aliyun.com/)
+
+#### 3. 配置 API 后端
+
+```bash
+cd ../nutrition_tracker_backend
+
+# 安装依赖
+npm install
+
+# 启动服务器
+npm start
+```
+
+#### 4. 配置前端
+
+```bash
+cd ../nutrition_tracker_frontend
+
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
+```
+
+### 运行系统
+
+**方案 A: 完整堆栈（推荐）**
+
+```bash
+# 终端 1 - AI 后端
+cd nutrition_tracker_AI
+source .venv/bin/activate
+python agent_server.py
+
+# 终端 2 - API 后端
+cd nutrition_tracker_backend
+npm start
+
+# 终端 3 - 前端
+cd nutrition_tracker_frontend
+npm run dev
+```
+
+访问: `http://localhost:3000`
+
+**方案 B: 仅 AI 后端命令行**
+
+```bash
+cd nutrition_tracker_AI
+source .venv/bin/activate
+python main.py
+```
+
+---
+
+## 📚 文档
+
+### 项目结构
+
+```
+NutriFlow-AI/
+├── 📁 nutrition_tracker_AI/          # AI 后端 (Python)
+│   ├── main.py                       # 命令行入口
+│   ├── agent_server.py               # Flask/FastAPI 服务器
+│   ├── ai_nutrition_agent/           # 核心代理包
+│   │   ├── agent.py                  # LangGraph 代理（12个工具）
+│   │   ├── config/settings.py        # 配置
+│   │   ├── tools/                    # 12 个专业工具
+│   │   ├── schemas/                  # Pydantic 数据模型
+│   │   ├── prompts/                  # LLM 提示词模板
+│   │   └── db/meals.json            # 数据库
+│   └── tests/                        # 测试套件
+│
+├── 📁 nutrition_tracker_backend/      # API 后端 (Node.js)
+│   ├── server.js                     # Express 服务器
+│   ├── src/
+│   │   ├── controllers/              # 路由处理器
+│   │   ├── middleware/auth.js        # JWT 认证
+│   │   └── routes/                   # API 路由
+│   └── uploads/                      # 临时图片存储
+│
+└── 📁 nutrition_tracker_frontend/     # 前端 (React)
+    ├── app/                          # Next.js 应用目录
+    │   ├── page.tsx                  # 主追踪页面
+    │   ├── auth/page.tsx             # 登录/注册
+    │   └── summary/page.tsx          # 每日总结
+    ├── components/
+    │   ├── nutrition-tracker.tsx     # 主组件
+    │   └── daily-summary.tsx         # 总结视图
+    └── types/                        # TypeScript 类型定义
+```
+
+### AI 后端：12 个代理工具
+
+| # | 工具名称 | 目的 | 输入 | 输出 |
+|---|---------|------|------|------|
+| 1 | `detect_dishes_and_portions` | 通过 Qwen-VL 进行图像识别 | image_path | JSON: 菜品数组 |
+| 2 | `check_and_refine_portions` | 份量验证 | vision_result | JSON: 已验证的份量 |
+| 3 | `add_nutrition_to_dishes` | 批量营养查询 | portion_result | JSON: 带 nutrition_per_100g |
+| 4 | `query_nutrition_per_100g` | 单个菜品查询 | dish_name | JSON: 营养数据 |
+| 5 | `compute_meal_nutrition` | 计算总量 | nutrition_result | JSON: meal_nutrition_total |
+| 6 | `save_meal` | 数据库持久化 | compute_result | 状态消息 |
+| 7 | `load_recent_meals` | 加载历史记录 | days (int) | JSON: 最近的餐食 |
+| 8 | `get_daily_summary` | 每日报告 | date (可选) | JSON: 每日总结 |
+| 9 | `score_current_meal` | 基础健康评分 | meal_nutrition | 分数 + 建议 |
+| 10 | `score_current_meal_llm` | 基于 LLM 的评分 | meal_data | 详细分数 |
+| 11 | `score_weekly_adjusted` | 每周趋势评分 | weekly_data | 调整后的分数 |
+| 12 | `recommend_next_meal` | 下一餐建议 | history + current | 推荐 |
+
+### 工作流程
+
+```
+用户上传图片
+    ↓
+前端 → API 后端 → AI 代理
+                    ↓
+            1. Qwen-VL: 图片 → 菜品
+            2. 验证份量
+            3. 查询营养（在线）
+            4. 计算总量
+            5. 健康评分
+            6. 生成推荐
+            7. 保存到数据库
+                    ↓
+前端 ← API 后端 ← JSON 响应
+    ↓
+显示分析报告
+```
+
+---
+
+## 🔌 API 文档
+
+### AI 后端端点
+
+#### `POST /analyze`
+分析餐食图片并返回完整的营养分析。
+
+**请求:**
+```json
+{
+  "image_path": "/path/to/meal.jpg",
+  "user_id": "user001"
+}
+```
+
+**响应:**
+```json
+{
+  "dishes": [
+    {
+      "name": "宫保鸡丁",
+      "category": "meat_dish",
+      "final_weight_g": 300,
+      "nutrition_total": {
+        "calories": 345.0,
+        "protein": 25.5,
+        "fat": 18.6,
+        "carbs": 21.9,
+        "sodium": 960.0
+      }
+    }
+  ],
+  "meal_nutrition_total": {
+    "calories": 345.0,
+    "protein": 25.5,
+    "fat": 18.6,
+    "carbs": 21.9,
+    "sodium": 960.0
+  },
+  "health_score": 75,
+  "recommendations": ["下一餐：低钠、高纤维..."]
+}
+```
+
+### API 后端端点
+
+#### 认证
+
+- `POST /api/auth/register` - 注册新用户
+- `POST /api/auth/login` - 用户登录（返回 JWT）
+
+#### 餐食分析
+
+- `POST /api/analyze` - 上传并分析餐食图片
+- `GET /api/meals` - 获取用户的餐食历史
+- `GET /api/meals/:date` - 获取特定日期的餐食
+
+---
+
+## 🧪 测试
+
+### AI 后端测试
+
+```bash
+cd nutrition_tracker_AI
+source .venv/bin/activate
+
+# 运行所有测试
+python -m pytest tests/
+
+# 特定测试
+python tests/test_complete_chain.py  # 集成测试
+python tests/verify_db.py            # 数据库验证
+```
+
+**测试覆盖:**
+- ✅ 视觉工具 (Qwen-VL 集成)
+- ✅ 份量验证
+- ✅ 营养查询（在线）
+- ✅ 营养计算
+- ✅ 数据库操作
+- ✅ 完整工具链（端到端）
+
+### 测试输出示例
+
+```
+======================================================================
+🧪 测试完整工具链
+======================================================================
+
+1️⃣  视觉: ✅ 识别出 1 道菜
+2️⃣  份量: ✅ 验证 300g (大份)
+3️⃣  营养: ✅ 在线查询 (115 千卡/100g)
+4️⃣  计算: ✅ 总计 345 千卡, 25.5g 蛋白质
+5️⃣  保存: ✅ 已保存到数据库 (meal_2025-12-08_1)
+
+======================================================================
+✅ 所有测试通过！
+======================================================================
+```
+
+---
+
+## 🔧 配置
+
+### 环境变量
+
+**AI 后端** (`nutrition_tracker_AI/` 中的 `.env`):
+```bash
+DASHSCOPE_API_KEY=sk-xxxxxxxxxxxxx
+QWEN_VL_MODEL=qwen-vl-plus
+QWEN_TEXT_MODEL=qwen-plus
+```
+
+**API 后端** (`nutrition_tracker_backend/` 中的 `.env`):
+```bash
+PORT=5000
+JWT_SECRET=your_secret_key
+AI_BACKEND_URL=http://localhost:8000
+```
+
+**前端** (`nutrition_tracker_frontend/` 中的 `.env.local`):
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
+
+### 关键设置
+
+**AI 代理配置** (`nutrition_tracker_AI/ai_nutrition_agent/config/settings.py`):
+```python
+DASHSCOPE_API_KEY        # API 密钥
+QWEN_VL_MODEL           # 视觉模型名称
+QWEN_TEXT_MODEL         # 文本模型名称
+DB_PATH                 # 数据库文件路径
+RECENT_DAYS = 7         # 趋势分析的天数
+```
+
+---
+
+## 📊 数据库架构
+
+### meals.json 结构
+
+```json
+{
+  "user_id": "user001",
+  "days": [
+    {
+      "date": "2025-12-09",
+      "daily_summary": {
+        "total_calories": 1850.0,
+        "total_protein": 85.2,
+        "total_fat": 62.5,
+        "total_carbs": 210.3,
+        "total_sodium": 2500.0,
+        "daily_score": 78
+      },
+      "meals": [
+        {
+          "meal_id": "meal_2025-12-09_1",
+          "timestamp": "2025-12-09T08:30:00",
+          "image_path": "/uploads/breakfast.jpg",
+          "dishes": [
+            {
+              "dish_id": "dish_1",
+              "name": "炒鸡蛋",
+              "category": "protein",
+              "estimated_weight_g": 150,
+              "final_weight_g": 150,
+              "portion_level": "medium",
+              "nutrition_per_100g": {
+                "calories": 140.0,
+                "protein": 12.5,
+                "fat": 9.5,
+                "carbs": 1.5,
+                "sodium": 150.0
+              },
+              "nutrition_total": {
+                "calories": 210.0,
+                "protein": 18.8,
+                "fat": 14.3,
+                "carbs": 2.3,
+                "sodium": 225.0
+              }
+            }
+          ],
+          "meal_nutrition_total": {
+            "calories": 210.0,
+            "protein": 18.8,
+            "fat": 14.3,
+            "carbs": 2.3,
+            "sodium": 225.0
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## 🔐 安全
+
+- **认证**: 基于 JWT 的 API 端点认证
+- **API 密钥**: 阿里云 API 密钥存储在环境变量中
+- **数据隐私**: 用户数据本地存储，不发送给第三方
+- **图片存储**: 处理后清理临时上传文件
+
+---
+
+## 🐛 故障排查
+
+### 常见问题
+
+#### 1. "DASHSCOPE_API_KEY not configured"
+
+**解决方案:**
+- 确保 `.env` 文件存在于 `nutrition_tracker_AI/` 目录
+- 检查 API 密钥格式（应以 `sk-` 开头）
+- 添加 `.env` 后重启应用程序
+
+#### 2. 图像识别返回空结果
+
+**可能原因:**
+- 不支持的图片格式（使用 JPG、PNG 或 WebP）
+- 图片太大（保持在 5MB 以下）
+- 图片质量或光线不佳
+- API 配额已用尽
+
+**解决方案:**
+- 使用支持的格式并压缩图片
+- 拍照时确保光线充足
+- 检查 DashScope 账户余额
+
+#### 3. 数据库文件为空/损坏
+
+**解决方案:**
+- 系统会自动初始化空数据库
+- 检查 `db/meals.json` 的文件权限
+- 如果损坏，删除文件并重启（将创建新文件）
+
+#### 4. 营养值全为零
+
+**原因:** 缺少 `add_nutrition_to_dishes` 工具调用
+
+**解决方案:** 
+- 当前版本已修复
+- 代理系统提示词确保调用此工具
+- 运行 `python tests/test_complete_chain.py` 验证
+
+#### 5. 前端无法连接后端
+
+**解决方案:**
+- 验证所有三个服务都在运行
+- 检查 `.env` 文件是否有正确的 URL
+- 确保没有端口冲突（3000、5000、8000）
+
+---
+
+## 🎯 开发路线图
+
+### 第一阶段: 核心功能（✅ 已完成）
+- [x] AI 图像识别
+- [x] 营养计算
+- [x] 健康评分
+- [x] 数据库持久化
+- [x] 命令行界面
+- [x] 完整测试套件
+
+### 第二阶段: 全栈开发（🚧 进行中）
+- [x] API 后端
+- [x] React 前端
+- [x] 用户认证
+- [ ] 多用户支持
+- [ ] 数据可视化仪表板
+
+### 第三阶段: 高级功能（📋 计划中）
+- [ ] 移动应用（React Native）
+- [ ] 包装食品条形码扫描
+- [ ] 食谱推荐
+- [ ] 膳食计划日历
+- [ ] 导出报告（PDF/Excel）
+- [ ] 社交功能（分享餐食）
+- [ ] 与健身应用集成
+
+### 第四阶段: 智能升级（🔮 未来）
+- [ ] 自定义饮食目标
+- [ ] 过敏/饮食限制支持
+- [ ] 微量营养素追踪
+- [ ] 运动卡路里集成
+- [ ] 预测性膳食建议
+- [ ] 语音界面
+
+---
+
+## 🤝 贡献
+
+我们欢迎贡献！以下是你可以提供帮助的方式：
+
+1. **报告错误**: 打开一个 issue 并详细描述
+2. **建议功能**: 在讨论区分享你的想法
+3. **提交 PR**: 
+   - Fork 仓库
+   - 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+   - 提交更改 (`git commit -m 'Add AmazingFeature'`)
+   - 推送到分支 (`git push origin feature/AmazingFeature`)
+   - 打开 Pull Request
+
+### 开发指南
+
+- 遵循现有代码风格
+- 为新功能添加测试
+- 更新文档
+- 保持提交原子化并有良好的描述
+
+---
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
+
+### 第三方许可证
+
+- **LangChain**: MIT 许可证
+- **阿里巴巴通义千问模型**: 商业使用需要阿里云协议
+- **React**: MIT 许可证
+- **Next.js**: MIT 许可证
+- **shadcn/ui**: MIT 许可证
+
+---
+
+## 🙏 致谢
+
+### 核心技术
+- [LangChain](https://github.com/langchain-ai/langchain) - 代理框架
+- [LangGraph](https://github.com/langchain-ai/langgraph) - 工作流编排
+- [阿里云通义千问](https://www.aliyun.com/product/bailian) - 多模态 AI 模型
+- [Pydantic](https://github.com/pydantic/pydantic) - 数据验证
+- [Next.js](https://nextjs.org/) - React 框架
+- [shadcn/ui](https://ui.shadcn.com/) - UI 组件
+
+### 灵感来源
+- YOLO 目标检测概念
+- MyFitnessPal 营养追踪用户体验
+- Calorie Mama AI 驱动的食物识别
+
+---
+
+## 📧 联系与支持
+
+- **作者**: Severin Ye
+- **GitHub**: [@severin-ye](https://github.com/severin-ye)
+- **仓库**: [NutriFlow-AI](https://github.com/severin-ye/NutriFlow-AI)
+- **问题**: [报告错误](https://github.com/severin-ye/NutriFlow-AI/issues)
+
+如有问题或建议，请打开一个 issue 或开始讨论。
+
+---
+
+## 📈 统计
+
+![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)
+![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)
+![React](https://img.shields.io/badge/React-18+-61DAFB.svg)
+![LangChain](https://img.shields.io/badge/LangChain-1.0-orange.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+**项目统计:**
+- 🐍 Python 代码行数: ~2,000
+- 🟢 JavaScript/TypeScript 代码行数: ~1,500
+- 🧪 测试覆盖率: 80%+
+- 🛠️ AI 工具: 12 个
+- 📊 数据模型: 8 个
+- 📝 提示词模板: 6 个
+
+---
+
+<div align="center">
+
+**由 Severin Ye 用 ❤️ 构建**
+
+⭐ 如果觉得有帮助，请给这个项目点个星！
+
+[返回顶部](#-nutriflow-ai---智能营养分析系统)
+
+</div>
+
+---
+
+**最后更新**: 2025年12月9日
+**版本**: 1.0.0

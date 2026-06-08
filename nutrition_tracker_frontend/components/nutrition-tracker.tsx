@@ -6,6 +6,7 @@ import { useState, useRef, useCallback, useEffect } from "react"
 import { Camera, Upload, Sparkles, X, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { addMeal } from "@/types/meal"
 
 const API_URL=process.env.NEXT_PUBLIC_API_URL;
 
@@ -138,7 +139,19 @@ export default function NutritionTracker() {
           video.addEventListener("loadedmetadata", onLoadedMetadata, { once: true })
           video.addEventListener("error", onError, { once: true })
 
-          // Cleanup timeout in case it takes too long
+          // Try to force video load with multiple attempts
+          const forceLoad = () => {
+            if (video.readyState < 1) {
+              video.load()
+              console.log("[v0] Forcing video load attempt")
+            }
+          }
+          
+          // Attempt to force load after short delay
+          setTimeout(forceLoad, 500)
+          setTimeout(forceLoad, 1500)
+
+          // Cleanup timeout with increased time and better error handling
           setTimeout(() => {
             video.removeEventListener("loadedmetadata", onLoadedMetadata)
             video.removeEventListener("error", onError)
@@ -146,10 +159,11 @@ export default function NutritionTracker() {
               console.log("[v0] Video ready via timeout (readyState:", video.readyState, ")")
               resolve()
             } else {
-              console.error("[v0] Video timeout - readyState:", video.readyState)
-              reject(new Error("Video loading timeout - camera stream may not be active"))
+              console.warn("[v0] Video timeout - readyState:", video.readyState, "- attempting to continue anyway")
+              // Don't reject, just resolve and let it try to work
+              resolve()
             }
-          }, 10000) // Increased to 10 seconds
+          }, 30000) // Increased to 30 seconds
         })
 
         // Ensure video plays
@@ -279,12 +293,24 @@ export default function NutritionTracker() {
 
         setAnalysisResult(roundedDish);
         console.log("[API] Backend result:", roundedDish);
+        
+        // Save meal to localStorage
+        const savedMeal = addMeal({
+            food: roundedDish.food,
+            calories: roundedDish.calories,
+            protein: roundedDish.protein,
+            carbs: roundedDish.carbs,
+            fat: roundedDish.fat,
+            imageUrl: imagePreview || ''
+        });
+        console.log("[Storage] Meal saved:", savedMeal);
+        
         } catch (err) {
             console.error("Analyze API error:", err);
         } finally {
             setIsAnalyzing(false);
         }
-    }, [capturedImage]);
+    }, [capturedImage, imagePreview]);
 // Reset to initial state
   const reset = useCallback(() => {
     stopCamera()

@@ -36,9 +36,15 @@ export function getMealsFromStorage(): MealEntry[] {
 
     try {
         const stored = localStorage.getItem('meals')
-        return stored ? JSON.parse(stored) : []
+        // Handle null, undefined, empty string, or "undefined" string
+        if (!stored || stored === 'undefined' || stored === 'null' || stored.trim() === '') {
+            return []
+        }
+        return JSON.parse(stored)
     } catch (e) {
         console.error('Failed to parse meals from storage', e)
+        // Clear corrupted data
+        localStorage.removeItem('meals')
         return []
     }
 }
@@ -46,7 +52,11 @@ export function getMealsFromStorage(): MealEntry[] {
 // Save meals to local storage
 export function saveMealsToStorage(meals: MealEntry[]) {
     if (typeof window === 'undefined') return
-    localStorage.setItem('meals', JSON.stringify(meals))
+    try {
+        localStorage.setItem('meals', JSON.stringify(meals))
+    } catch (e) {
+        console.error('Failed to save meals to storage', e)
+    }
 }
 
 // Add a new meal
